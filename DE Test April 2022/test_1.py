@@ -9,6 +9,7 @@ def is_log_line(line):
     """Takes a log line and returns True if it is a valid log line and returns nothing
     if it is not.
     """
+    # START TIME: 10:00 
     return True
 
 
