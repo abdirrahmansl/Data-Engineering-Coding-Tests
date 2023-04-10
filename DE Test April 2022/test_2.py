@@ -1,3 +1,6 @@
+import urllib.request, json
+import pandas as pd
+import csv
 # A team of analysts wish to discover how far people are travelling to their nearest
 # desired court. We have provided you with a small test dataset so you can find out if
 # it is possible to give the analysts the data they need to do this. The data is in
@@ -71,4 +74,32 @@
 
 if __name__ == "__main__":
     # [TODO]: write your answer here
-    pass
+    # Check api, 
+    # get nearest of correct type
+    # add to csv with name and all info needed..
+
+    df = pd.read_csv('people.csv')
+    total_data = []
+    for index, row in df.iterrows():
+        postcode = row['home_postcode']
+        person_name = row["person_name"]
+        url = f'https://www.find-court-tribunal.service.gov.uk/search/results.json?postcode={postcode}'
+        res = urllib.request.urlopen(url)
+        data = json.loads(res.read())
+        for court in data:
+            try:
+                # print(row["looking_for_court_type"])
+                # print(court["types"][0])
+                if court["types"][0] == row["looking_for_court_type"]:
+                    court_name = court["name"]
+                    distance = court["distance"]
+                    dx_num = court["dx_number"]
+                    total_data.append([person_name,postcode,court_name,dx_num,distance])
+            except IndexError:
+                # print("nothing left")
+                pass
+    with open("final_output.csv", "w", newline='') as file:
+
+        writer = csv.writer(file)
+        writer.writerow(["name", "home_postcode", "nearest_court", "dx_num", "distance"])
+        writer.writerows(total_data)

@@ -7,4 +7,22 @@
 def sum_current_time(time_str: str) -> int:
     """Expects data in the format HH:MM:SS"""
     list_of_nums = time_str.split(":")
-    return sum(list_of_nums)
+    
+    return sum(int(num) for num in list_of_nums)
+
+
+
+
+def test_sum_of_current_time():
+    time = '01:02:03'
+    res = sum_current_time(time)
+    assert res == 7
+
+if __name__=="__main__":
+
+    
+
+    try:
+        test_sum_of_current_time()
+    except Exception:
+        print("Incorrect summation.")

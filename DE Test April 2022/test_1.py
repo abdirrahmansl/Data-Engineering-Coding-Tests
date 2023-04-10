@@ -1,3 +1,4 @@
+import datetime
 # [TODO]: step 1
 # Update the is_log_line function below to skip lines that are not valid log lines.
 # Valid log lines have a timestamp, error type, and message. For example, lines 1, 3,
@@ -5,12 +6,21 @@
 # There's no perfect way to do this: just decide what you think is reasonable to get
 # the test to pass. The only thing you are not allowed to do is filter out log lines
 # based on the exact row numbers you want to remove.
+
 def is_log_line(line):
     """Takes a log line and returns True if it is a valid log line and returns nothing
     if it is not.
     """
-    # START TIME: 10:00 
-    return True
+    # with open("sample.log", "r") as file:
+    #     logs = file.readlines()
+    try:
+        date = datetime.datetime.strptime(str(line[0:17]), '%d/%m/%y %H:%M:%S')
+        return True
+    except ValueError as err:
+        return None
+    # print(log[0:17])
+    
+    # return True
 
 
 # [TODO]: step 2
@@ -22,7 +32,10 @@ def get_dict(line):
     """Takes a log line and returns a dict with
     `timestamp`, `log_level`, `message` keys
     """
-    pass
+    if is_log_line(line):
+        red = line.split()
+        # print({"timestamp":red[0] + red[1], "log_level":red[2], "message":red[3:]})
+        return {"timestamp":red[0] +" "+ red[1], "log_level":red[2], "message":' '.join(red[3:])}
 
 
 # YOU DON'T NEED TO CHANGE ANYTHING BELOW THIS LINE
